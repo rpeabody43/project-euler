@@ -1,4 +1,5 @@
 public class Main {
+//Sum Square Difference
 
     public static void main(String[] args) {
         int sum = 0;
