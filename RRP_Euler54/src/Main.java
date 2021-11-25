@@ -5,7 +5,7 @@ public class Main {
 // Poker hands
 
     public static void main(String[] args) {
-        File handsF = new File (".\\Hands.txt");
+        File handsF = new File ("src\\Hands.txt");
         Hands h = new Hands(handsF);
 
         int player1Score = 0;
