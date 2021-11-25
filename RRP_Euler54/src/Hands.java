@@ -6,6 +6,9 @@ public class Hands {
 
     File f;
     String[][][] hands = new String[1000][2][5]; //[Row (0 - 999)][Player (0 - 1)][Card (0 - 4)]
+    public int length () {
+        return hands.length;
+    }
     public Hands (File file) {
         f = file;
         // Scan through each line of the doc
@@ -57,6 +60,6 @@ public class Hands {
     }
 
     public String[][] getLine (int line) {
-        return hands[line];
+        return hands[line - 1];
     }
 }

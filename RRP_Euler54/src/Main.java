@@ -1,4 +1,5 @@
 import java.io.File;
+import java.util.ArrayList;
 
 public class Main {
 // Poker hands
@@ -7,7 +8,24 @@ public class Main {
         File handsF = new File ("src\\Hands.txt");
         Hands h = new Hands(handsF);
 
-        String[] test = {"1C", "2C", "3C", "4C", "5C"};
-        System.out.println(Poker.flush(test) && Poker.straight(test));
+        int player1Score = 0;
+        for (int i = 1; i < h.length() + 1; i++) {
+            String[][] l = h.getLine(i);
+            System.out.print("p1: " + String.join(", ", l[0]) +
+                    " | p2: " + String.join(", ", l[1]) + " | Winner: ");
+
+            if (Poker.winner(l[0], l[1]) == 1) {
+                System.out.print("p1: ");
+                System.out.print(Poker.score(l[0])[0] + ", " + Poker.score(l[0])[1]);
+                player1Score++;
+            }
+            else if (Poker.winner(l[0], l[1]) == 2) {
+                System.out.print("p2: ");
+                System.out.print(Poker.score(l[1])[0] + ", " + Poker.score(l[1])[1]);
+            }
+            System.out.println();
+        }
+        System.out.println(player1Score);
+
     }
 }
