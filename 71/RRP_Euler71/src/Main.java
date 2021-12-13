@@ -3,8 +3,6 @@ public class Main {
 // Ordered fractions
 
     public static void main(String[] args) {
-        // fraction class with numerator, denominator, and decimal form
-        // arraylist with every reduced proper fraction where d < 1,000,000
         int range = 1000000;
         double max = (double) 3 / 7;
 
