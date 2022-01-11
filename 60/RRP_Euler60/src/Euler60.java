@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Euler60 {
 
@@ -20,8 +22,8 @@ public class Euler60 {
         int range = 10000;
 
         Euler60 euler60 = new Euler60(range);
-        System.out.println(euler60.new BruteForce().bruteForceRecursive(target));
-//        System.out.println(euler60.new Smarter().smartGenerate(target));
+//        System.out.println(euler60.new BruteForce().bruteForceRecursive(target));
+        System.out.println(euler60.new Iteration().iteration());
 
         double totalTimeSeconds = (System.currentTimeMillis() - startTime) / 1000.0;
         System.out.println(totalTimeSeconds + "s");
@@ -33,10 +35,11 @@ public class Euler60 {
             return true;
         for (int x = 0; x < nums.length; x++) {
             for (int i = 0; i < nums.length; i++) {
-                if (nums[i] == nums[x] && nums[i] != 0)
-                    continue;
-                int concat1 = Integer.parseInt(nums[x] + "" + nums[i]);
-                int concat2 = Integer.parseInt(nums[i] + "" + nums[x]);
+                if (nums[i] == nums[x])
+                    if (i != x) return false;
+                    else continue;
+                int concat1 = Integer.parseInt(String.valueOf(nums[x]) + nums[i]);
+                int concat2 = Integer.parseInt(String.valueOf(nums[i]) + nums[x]);
                 if (!(Primes.isPrime(concat1) && Primes.isPrime(concat2)))
                     return false;
             }
@@ -65,10 +68,6 @@ public class Euler60 {
     }
 
     private void printArray(int[] arr) {
-
-        // ! THIS IS REALLY SLOW (274.727s)
-        //region RECURSIVE
-
         for (int i : arr) {
             System.out.print(i + " ");
         }
@@ -125,8 +124,57 @@ public class Euler60 {
         }
     }
 
-//    public class Iteration {
-//        int result = Integer.MAX_VALUE;
-//        for ()
-//    }
+    public class Iteration {
+        int min = Integer.MAX_VALUE;
+        int[] minArr;
+
+        private boolean arrayContains(int[] arr, int num) {
+            for (int i : arr)
+                if (i == num) return false;
+            return true;
+        }
+
+        private int[] concatArray(int[] arr1, int [] arr2) {
+            int[] ret = new int[arr1.length + arr2.length];
+            System.arraycopy(arr1, 0, ret, 0, arr1.length);
+            System.arraycopy(arr2, 0, ret, arr1.length, arr2.length);
+            return ret;
+        }
+
+        private ArrayList<int[]> helper(ArrayList<int[]> previous, ArrayList<int[]> primes) {
+            ArrayList<int[]> ret = new ArrayList<>();
+            for (int i = previous.size() - 1; i > 0; i--) {
+                int[] pair1 = previous.get(i);
+                for (int j = 0; j < primes.size(); j++) {
+                    int[] pair2 = primes.get(j);
+                    if (pair1 != pair2) {
+                        int[] test = concatArray(pair1, pair2);
+                        if (works(test))
+                            ret.add(test);
+                    }
+                }
+            }
+            return ret;
+        }
+
+        // ! THIS IS EVEN SLOWER AND I DON'T FEEL LIKE FIXING IT
+        public String iteration () {
+            ArrayList<int[]> primesAsArrs = new ArrayList<>();
+            for (int i : primes) {
+                primesAsArrs.add(new int[]{i});
+            }
+
+            ArrayList<int[]> pairs = helper(primesAsArrs, primesAsArrs);
+
+            System.out.println("genned 2s");
+            ArrayList<int[]> trios = helper(pairs, primesAsArrs);
+            System.out.println("genned 3s");
+            ArrayList<int[]> quads = helper(trios, primesAsArrs);
+            System.out.println("genned 4s");
+            ArrayList<int[]> quints = helper(quads, primesAsArrs);
+            System.out.println("genned 5s");
+            printArray(minArr);
+            return (String.valueOf(min));
+        }
+    }
 }
