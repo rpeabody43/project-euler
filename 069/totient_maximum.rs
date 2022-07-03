@@ -48,7 +48,7 @@ fn solve (range: u32) {
 fn main () {
     let start = Instant::now();
 
-    solve(100000);
+    solve(1000000);
 
     let duration = start.elapsed();
     println!("{:?}", duration);
